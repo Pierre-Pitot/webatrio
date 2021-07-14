@@ -21,7 +21,11 @@ public class PersonController {
 
 	@PostMapping("/person")
 	public void person(@RequestParam(value = "lastName") String lastName, @RequestParam(value = "firstName") String firstName, @RequestParam(value = "birthDate") Date birthDate)
-			throws SQLException {
-		DBConnection.getInstance().insertPerson(new Person(lastName, firstName, birthDate));
+			throws Exception {
+		Person p = new Person(lastName, firstName, birthDate);
+		if (p.getAge() > 150) {
+			throw new Exception("Age cannot exceed 150 years");
+		}
+		DBConnection.getInstance().insertPerson(p);
 	}
 }
